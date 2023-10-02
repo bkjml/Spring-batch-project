@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:map="http://www.springframework.org/schema/batch"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd">
+
+        <bean id = "jobRepository"
+              class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+            <property name = "transactionManager" ref = "transactionManager" />
+            <property name="dataSource" ref="dummyDataSource" />
+        </bean>
+
+        <bean id="dummyDataSource"
+              class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+            <property name="driverClassName" value="org.h2.Driver" />
+            <property name="url" value="jdbc:h2:mem:testdb" />
+            <property name="username" value="sa" />
+            <property name="password" value="" />
+        </bean>
+
+        <bean id = "transactionManager"
+              class = "org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+
+        <bean id = "jobLauncher"
+              class = "org.springframework.batch.core.launch.support.SimpleJobLauncher">
+            <property name = "jobRepository" ref = "jobRepository" />
+        </bean>
+</beans>
